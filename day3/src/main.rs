@@ -33,15 +33,15 @@ fn compute(input: &str, mut pred: impl FnMut(char, i32, (usize, usize)) -> bool)
         let mut x = 0;
         'numLoop: while x < chrs[y].len() {
             if is_digit(chrs[y][x]) {
-                let mut numStr = String::new();
-                numStr.push(chrs[y][x]);
+                let mut num_str = String::new();
+                num_str.push(chrs[y][x]);
                 let x_start = x;
                 x += 1;
                 while x < chrs[y].len() && is_digit(chrs[y][x]){
-                    numStr.push(chrs[y][x]);
+                    num_str.push(chrs[y][x]);
                     x += 1;
                 }
-                let num = numStr.parse().unwrap();
+                let num = num_str.parse().unwrap();
                 
                 let mut y2 = if y > 1 { y - 1 } else { 0 };
                 while y2 < cmp::min(chrs.len() - 1, y + 2){
@@ -67,7 +67,7 @@ fn compute(input: &str, mut pred: impl FnMut(char, i32, (usize, usize)) -> bool)
 fn part1(input: &str) -> i32{
     let mut sum = 0;
 
-    let pred = |chr: char, num: i32, coord: (usize, usize)| -> bool { 
+    let pred = |chr: char, num: i32, _coord: (usize, usize)| -> bool { 
         if is_symbol(chr) {
             sum += num;
             return true;
@@ -81,14 +81,14 @@ fn part1(input: &str) -> i32{
 
 fn part2(input: &str) -> i32 {
     let mut sum = 0;
-    let mut gearMap: HashMap<(usize, usize), i32> = HashMap::new();
+    let mut gear_map: HashMap<(usize, usize), i32> = HashMap::new();
 
     let pred = |chr: char, num: i32, coord: (usize, usize)| -> bool { 
         if is_gear(chr) {
-            if gearMap.contains_key(&coord) {
-                sum += num * gearMap.get(&coord).unwrap();
+            if gear_map.contains_key(&coord) {
+                sum += num * gear_map.get(&coord).unwrap();
             }else{
-                gearMap.insert(coord, num);
+                gear_map.insert(coord, num);
             }
             return true;
         }
